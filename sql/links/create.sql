@@ -8,6 +8,7 @@ CREATE TABLE links(
     enterId VARCHAR(100) COMMENT 'Enter Id',
     sourceOrigin VARCHAR(100) COMMENT 'Source Origin',
     linkName VARCHAR(255) COMMENT 'Link Name',
+    nickname VARCHAR(50) COMMENT 'nickname',
     username VARCHAR(50) COMMENT 'username',
     url VARCHAR(255) COMMENT 'url'
 ) DEFAULT CHARSET UTF8 COMMENT 'Links Details';
