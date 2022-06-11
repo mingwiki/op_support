@@ -9,12 +9,12 @@ const db = mysql({
     password: process.env.MYSQL_PASSWORD,
   },
 })
-export default async function SQL({ sql, values }) {
+export default async function SQL(sql) {
   try {
-    const results = await db.query({ sql, timeout: 5000, values })
+    const results = await db.query(sql)
     await db.end()
     return results
   } catch (error) {
-    return { error }
+    return error
   }
 }
