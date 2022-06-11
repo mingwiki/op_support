@@ -2,9 +2,13 @@
 import fs from 'fs'
 import SQL from '../../db'
 export default async function handler(req, res) {
-  const users = JSON.parse(fs.readFileSync('./json/_User.json', 'utf8'))
-  const links = JSON.parse(fs.readFileSync('./json/toolkits.json', 'utf8'))
-
+  try{
+    const result = await SQL(`UPDATE links SET username = 'luobingyao' WHERE nickname = '马小各'`)
+    res.status(200).json(result)
+  }
+  catch(err){
+    res.status(500).json(err)
+  }
   // users.map(async (user) => {
   //   try {
   //     const result = await SQL(
