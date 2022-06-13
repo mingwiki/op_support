@@ -5,8 +5,8 @@ export default async (req, res) => {
     let result
     console.log(req.method)
     if (req.method === 'POST') {
-      const { filter, isOwner, orderBy } = req.body
-      if (isOwner) filter.username = isOwner
+      const { filter, data } = req.body
+      const { orderBy } = data
       result = await SQL(
         `SELECT * FROM links` +
           (Object.keys(filter)?.length

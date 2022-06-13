@@ -5,9 +5,7 @@ export default async (req, res) => {
     let result
     console.log(req.method)
     if (req.method === 'POST') {
-      const { filter, isOwner, deleteId } = req.body
-      if (isOwner) filter.username = isOwner
-      if (deleteId) filter.id = deleteId
+      const { filter } = req.body
       result = await SQL(
         `UPDATE links SET isShow=0` +
           (Object.keys(filter)?.length
