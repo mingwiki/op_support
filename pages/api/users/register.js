@@ -1,5 +1,5 @@
 import SQL from '../../../db'
-import md5 from 'md5'
+import CryptoJS from 'crypto-js'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 export default async (req, res) => {
@@ -14,11 +14,12 @@ export default async (req, res) => {
       const { username } = filter
       filter.create_time = datetime
       filter.update_time = datetime
-      filter.session_id = md5(
+      filter.session_id = CryptoJS.SHA256(
         Object.entries(filter)
           .flatMap((e) => `${e[0]}='${e[1]}'`)
+          .concat([new Date().toLocaleString()])
           .join('-')
-      ).slice(0, 50)
+      ).toString(CryptoJS.enc.Hex)
       console.log(filter)
       const check = await SQL(
         `SELECT COUNT(username) FROM users WHERE username='${username}'`

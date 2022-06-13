@@ -1,5 +1,5 @@
 import SQL from '../../../db'
-import md5 from 'md5'
+import CryptoJS from 'crypto-js'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 export default async (req, res) => {
@@ -11,11 +11,12 @@ export default async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
-      const session_id = md5(
+      const session_id = CryptoJS.SHA256(
         Object.entries(filter)
           .flatMap((e) => `${e[0]}='${e[1]}'`)
+          .concat([new Date().toLocaleString()])
           .join('-')
-      ).slice(0, 50)
+      ).toString(CryptoJS.enc.Hex)
       const update = await SQL(
         `UPDATE users SET update_time = '${datetime}', session_id ='${session_id}'` +
           (Object.keys(filter)?.length
