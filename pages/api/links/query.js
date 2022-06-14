@@ -13,6 +13,7 @@ export default async (req, res) => {
       const sessionToken = parseSessionTokenFromCookie(req)
       const { username } = sessionToken
       const { orderBy } = data
+      filter.isShow = 1
       if (!type) {
         filter.username = username
       }
