@@ -20,7 +20,7 @@ export default async (req, res) => {
       )
       if (check[0]['COUNT(username)'] === 0) {
         result = await SQL(
-          `INSERT users` +
+          `INSERT INTO users` +
             `(${Object.entries(filter)
               .flatMap((e) => e[0])
               .join(', ')})` +
