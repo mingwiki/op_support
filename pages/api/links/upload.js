@@ -25,21 +25,45 @@ export default async (req, res) => {
                   .join(' AND ')}`
               : null)
         )
-        data.create_time = datetime
-        data.update_time = datetime
-        data.isShow = 1
-        data.username = temp[0].username
-        data.nickname = temp[0].nickname
-        result = await SQL(
-          `INSERT INTO links` +
-            `(${Object.entries(data)
-              .flatMap((e) => e[0])
-              .join(', ')})` +
-            ` VALUES(${Object.entries(data)
-              .flatMap((e) => `'${e[1]}'`)
-              .join(', ')})`
-        )
-        res.status(200).json(result)
+        if (!Array.isArray(data)) {
+          data.create_time = datetime
+          data.update_time = datetime
+          data.isShow = 1
+          data.username = temp[0].username
+          data.nickname = temp[0].nickname
+          result = await SQL(
+            `INSERT INTO links` +
+              `(${Object.entries(data)
+                .flatMap((e) => e[0])
+                .join(', ')})` +
+              ` VALUES(${Object.entries(data)
+                .flatMap((e) => `'${e[1]}'`)
+                .join(', ')})`
+          )
+          res.status(200).json(result)
+        } else {
+          data.map((e) => {
+            e.create_time = datetime
+            e.update_time = datetime
+            e.isShow = 1
+            e.username = temp[0].username
+            e.nickname = temp[0].nickname
+          })
+          result = await SQL(
+            `INSERT INTO links` +
+              `(${Object.entries(data[0])
+                .flatMap((e) => e[0])
+                .join(', ')})` +
+              ` VALUES(${data
+                .map((e) =>
+                  Object.entries(e)
+                    .flatMap((i) => `'${i[1]}'`)
+                    .join(', ')
+                )
+                .join('), (')})`
+          )
+          res.status(200).json(result)
+        }
       } else {
         res.status(200).json('sessionToken Not found')
       }
