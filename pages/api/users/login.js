@@ -1,6 +1,6 @@
-import SQL from '../../../db'
-import CryptoJS from 'crypto-js'
+import SQL from '/db'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
+import { genSessionId } from '/common/crypto'
 
 export default async (req, res) => {
   try {
@@ -11,12 +11,7 @@ export default async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
-      const session_id = CryptoJS.SHA256(
-        Object.entries(filter)
-          .flatMap((e) => `${e[0]}='${e[1]}'`)
-          .concat([new Date().toLocaleString()])
-          .join('-')
-      ).toString(CryptoJS.enc.Hex)
+      const session_id = genSessionId(filter)
       const update = await SQL(
         `UPDATE users SET update_time = '${datetime}', session_id ='${session_id}'` +
           (Object.keys(filter)?.length
@@ -35,9 +30,13 @@ export default async (req, res) => {
                   .join(' AND ')}`
               : null)
         )
+        const sessionToken = {
+          session_id,
+          username: result[0].username,
+        }
         res.setHeader(
           'Set-Cookie',
-          `session_id=${session_id}; max-age=86400; path=/;`
+          `sessionToken=${JSON.stringify(sessionToken)}; max-age=86400; path=/;`
         )
         res.status(200).json(result)
       } else {

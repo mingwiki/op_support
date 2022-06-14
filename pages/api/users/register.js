@@ -1,6 +1,6 @@
-import SQL from '../../../db'
-import CryptoJS from 'crypto-js'
+import SQL from '/db'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
+import { genSessionId } from '/common/crypto'
 
 export default async (req, res) => {
   try {
@@ -14,13 +14,7 @@ export default async (req, res) => {
       const { username } = filter
       filter.create_time = datetime
       filter.update_time = datetime
-      filter.session_id = CryptoJS.SHA256(
-        Object.entries(filter)
-          .flatMap((e) => `${e[0]}='${e[1]}'`)
-          .concat([new Date().toLocaleString()])
-          .join('-')
-      ).toString(CryptoJS.enc.Hex)
-      console.log(filter)
+      filter.session_id = genSessionId(filter)
       const check = await SQL(
         `SELECT COUNT(username) FROM users WHERE username='${username}'`
       )
@@ -36,7 +30,10 @@ export default async (req, res) => {
         )
         res.setHeader(
           'Set-Cookie',
-          `session_id=${filter.session_id}; max-age=86400; path=/;`
+          `sessionToken=${JSON.stringify({
+            session_id: filter.session_id,
+            username: filter.username,
+          })}; max-age=86400; path=/;`
         )
         res.status(200).json(result)
       } else {

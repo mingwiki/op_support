@@ -1,16 +1,21 @@
-import SQL from '../../../db'
+import SQL from '/db'
+import { parseSessionTokenFromCookie } from '/common/parse'
 
 export default async (req, res) => {
   try {
     let result
-    console.log(req.method)
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', '*')
     res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'POST') {
-      const [, session_id] = req.headers?.cookie?.split('=')
+      const sessionToken = parseSessionTokenFromCookie(req)
       result = await SQL(
-        `SELECT  id, username, nickname, update_time, create_time FROM users WHERE session_id='${session_id}'`
+        `SELECT  id, username, nickname, update_time, create_time FROM users` +
+          (Object.keys(sessionToken)?.length
+            ? ` WHERE ${Object.entries(sessionToken)
+                .flatMap((e) => `${e[0]}='${e[1]}'`)
+                .join(' AND ')}`
+            : null)
       )
       res.status(200).json(result)
     } else {

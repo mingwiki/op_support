@@ -1,21 +1,22 @@
-import SQL from '../../../db'
+import SQL from '/db'
+import { auth } from '/common/auth'
+import { parseSessionTokenFromCookie } from '/common/parse'
 
 export default async (req, res) => {
   try {
     let result
-    console.log(req.method)
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', '*')
     res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'POST') {
-      const { filter, data } = req.body
+      const { filter, data, type } = req.body
+      const sessionToken = parseSessionTokenFromCookie(req)
+      const { username } = sessionToken
       const { orderBy } = data
-      const [, session_id] = req.headers?.cookie?.split('=')
-      console.log(session_id)
-      const check = await SQL(
-        `SELECT COUNT(session_id) FROM users WHERE session_id='${session_id}'`
-      )
-      if (check[0]['COUNT(session_id)'] === 1) {
+      if (!type) {
+        filter.username = username
+      }
+      if (auth(req)) {
         result = await SQL(
           `SELECT * FROM links` +
             (Object.keys(filter)?.length
@@ -27,8 +28,7 @@ export default async (req, res) => {
         )
         res.status(200).json(result)
       } else {
-        console.log(check[0]['COUNT(session_id)'])
-        res.status(200).json(check)
+        res.status(200).json('sessionToken Not found')
       }
     } else {
       res.status(200).json('Not POST request')

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "md5": "^2.3.0",
+    "crypto-js": "^4.1.1",
     "moment": "^2.29.3",
     "next": "12.1.6",
     "next-auth": "^4.5.0",
