@@ -40,7 +40,6 @@ export default async (req, res) => {
                 .flatMap((e) => `'${e[1]}'`)
                 .join(', ')})`
           )
-          res.status(200).json(result)
         } else {
           data.map((e) => {
             e.create_time = datetime
@@ -62,8 +61,8 @@ export default async (req, res) => {
                 )
                 .join('), (')})`
           )
-          res.status(200).json(result)
         }
+        res.status(200).json(result)
       } else {
         res.status(200).json('sessionToken Not found')
       }
