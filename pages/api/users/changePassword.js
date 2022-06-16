@@ -1,6 +1,8 @@
 import SQL from '/db'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 import { genSessionId } from '/common/crypto'
+import { auth } from '/common/auth'
+import { parseSessionTokenFromCookie } from '/common/parse'
 
 export default async (req, res) => {
   try {
@@ -11,13 +13,12 @@ export default async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
-      const { username, password } = filter
+      const { password } = filter
+      const sessionToken = parseSessionTokenFromCookie(req)
+      const { username } = sessionToken
       filter.update_time = datetime
       filter.session_id = genSessionId(filter)
-      const check = await SQL(
-        `SELECT COUNT(username) FROM users WHERE username='${username}'`
-      )
-      if (check[0]['COUNT(username)'] === 1) {
+      if (auth(req)) {
         result = await SQL(
           `UPDATE users SET update_time='${filter.update_time}', session_id='${filter.session_id}', password='${password}' WHERE username='${username}'`
         )
@@ -25,7 +26,7 @@ export default async (req, res) => {
           'Set-Cookie',
           `sessionToken=${JSON.stringify({
             session_id: filter.session_id,
-            username: filter.username,
+            username: username,
           })}; max-age=86400; path=/;`
         )
         res.status(200).json(result)
