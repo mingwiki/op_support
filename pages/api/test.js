@@ -1,4 +1,4 @@
-import SQL from '/db'
+import SQL from '/common/db'
 
 export default async (req, res) => {
   try {

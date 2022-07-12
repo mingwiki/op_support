@@ -1,4 +1,4 @@
-import SQL from '/db'
+import SQL from '/common/db'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 import { genSessionId } from '/common/crypto'
 import { auth } from '/common/auth'

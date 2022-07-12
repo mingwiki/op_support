@@ -1,4 +1,4 @@
-import SQL from '/db'
+import SQL from '/common/db'
 import { parseSessionTokenFromCookie } from '/common/parse'
 
 export default async (req, res) => {

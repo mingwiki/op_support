@@ -1,4 +1,4 @@
-import SQL from '/db'
+import SQL from '/common/db'
 import { auth } from '/common/auth'
 import { parseSessionTokenFromCookie } from '/common/parse'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
