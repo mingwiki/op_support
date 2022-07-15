@@ -1,5 +1,5 @@
 import { parseSessionTokenFromCookie } from './parse'
-import SQL from '/db'
+import SQL from '/common/db'
 export const auth = async (req) => {
   const sessionToken = parseSessionTokenFromCookie(req)
   const check = await SQL(
