@@ -1,8 +1,8 @@
 import SQL from '/common/db'
-const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 import { genSessionId } from '/common/crypto'
+const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
-export default async (req, res) => {
+const api = async (req, res) => {
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -20,7 +20,7 @@ export default async (req, res) => {
       )
       if (check[0]['COUNT(username)'] === 0) {
         result = await SQL(
-          `INSERT INTO users` +
+          'INSERT INTO users' +
             `(${Object.entries(filter)
               .flatMap((e) => e[0])
               .join(', ')})` +
@@ -32,7 +32,7 @@ export default async (req, res) => {
           'Set-Cookie',
           `sessionToken=${JSON.stringify({
             session_id: filter.session_id,
-            username: filter.username,
+            username: filter.username
           })}; max-age=86400; path=/;`
         )
         res.status(200).json(result)
@@ -47,3 +47,5 @@ export default async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export default api

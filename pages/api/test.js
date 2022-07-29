@@ -1,6 +1,6 @@
 import SQL from '/common/db'
 
-export default async (req, res) => {
+const api = async (req, res) => {
   try {
     const result = await SQL('SELECT content FROM hello_test LIMIT 1')
     res.status(200).json(result)
@@ -8,3 +8,5 @@ export default async (req, res) => {
     console.log(error)
   }
 }
+
+export default api

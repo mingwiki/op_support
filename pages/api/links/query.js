@@ -2,7 +2,7 @@ import SQL from '/common/db'
 import { auth } from '/common/auth'
 import { parseSessionTokenFromCookie } from '/common/parse'
 
-export default async (req, res) => {
+const api = async (req, res) => {
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -19,7 +19,7 @@ export default async (req, res) => {
       }
       if (auth(req)) {
         result = await SQL(
-          `SELECT * FROM links` +
+          'SELECT * FROM links' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
@@ -38,3 +38,5 @@ export default async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export default api

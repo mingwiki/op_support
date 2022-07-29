@@ -1,7 +1,7 @@
 import SQL from '/common/db'
 import { parseSessionTokenFromCookie } from '/common/parse'
 
-export default async (req, res) => {
+const api = async (req, res) => {
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -10,7 +10,7 @@ export default async (req, res) => {
     if (req.method === 'POST') {
       const sessionToken = parseSessionTokenFromCookie(req)
       result = await SQL(
-        `SELECT  id, username, nickname, update_time, create_time FROM users` +
+        'SELECT  id, username, nickname, update_time, create_time FROM users' +
           (Object.keys(sessionToken)?.length
             ? ` WHERE ${Object.entries(sessionToken)
                 .flatMap((e) => `${e[0]}='${e[1]}'`)
@@ -25,3 +25,5 @@ export default async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export default api

@@ -1,8 +1,8 @@
-import SQL from '/common/db'
-const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
+import SQL from 'common/db'
 import { genSessionId } from '/common/crypto'
+const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
-export default async (req, res) => {
+const api = async (req, res) => {
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -23,7 +23,7 @@ export default async (req, res) => {
       console.log(update)
       if (update.warningCount === 0) {
         result = await SQL(
-          `SELECT id, username, nickname, update_time, create_time FROM users` +
+          'SELECT id, username, nickname, update_time, create_time FROM users' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
@@ -32,7 +32,7 @@ export default async (req, res) => {
         )
         const sessionToken = {
           session_id,
-          username: result[0].username,
+          username: result[0].username
         }
         res.setHeader(
           'Set-Cookie',
@@ -49,3 +49,4 @@ export default async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+export default api

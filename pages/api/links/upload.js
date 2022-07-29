@@ -2,7 +2,8 @@ import SQL from '/common/db'
 import { auth } from '/common/auth'
 import { parseSessionTokenFromCookie } from '/common/parse'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
-export default async (req, res) => {
+
+const api = async (req, res) => {
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -18,7 +19,7 @@ export default async (req, res) => {
       if (auth(req)) {
         console.log(filter)
         const temp = await SQL(
-          `SELECT * FROM users` +
+          'SELECT * FROM users' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
@@ -32,7 +33,7 @@ export default async (req, res) => {
           data.username = temp[0].username
           data.nickname = temp[0].nickname
           result = await SQL(
-            `INSERT INTO links` +
+            'INSERT INTO links' +
               `(${Object.entries(data)
                 .flatMap((e) => e[0])
                 .join(', ')})` +
@@ -49,7 +50,7 @@ export default async (req, res) => {
             e.nickname = temp[0].nickname
           })
           result = await SQL(
-            `INSERT INTO links` +
+            'INSERT INTO links' +
               `(${Object.entries(data[0])
                 .flatMap((e) => e[0])
                 .join(', ')})` +
@@ -73,3 +74,5 @@ export default async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export default api

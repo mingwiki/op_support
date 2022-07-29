@@ -1,4 +1,4 @@
-export default function () {
+export default function App () {
   return (
     <h1>
       This is a API server for Toolkits, designed for 运营, powered by mingwiki.
