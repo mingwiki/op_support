@@ -1,7 +1,7 @@
-import SQL from '/common/db'
-import { genSessionId } from '/common/crypto'
-import { auth } from '/common/auth'
-import { parseSessionTokenFromCookie } from '/common/parse'
+import SQL from 'common/db'
+import { genSessionId } from 'common/crypto'
+import { auth } from 'common/auth'
+import { parseSessionTokenFromCookie } from 'common/parse'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -17,15 +17,15 @@ const api = async (req, res) => {
       const sessionToken = parseSessionTokenFromCookie(req)
       const { username } = sessionToken
       filter.update_time = datetime
-      filter.session_id = genSessionId(filter)
+      filter.sessionId = genSessionId(filter)
       if (auth(req)) {
         result = await SQL(
-          `UPDATE users SET update_time='${filter.update_time}', session_id='${filter.session_id}', password='${password}' WHERE username='${username}'`
+          `UPDATE users SET update_time='${filter.update_time}', sessionId='${filter.sessionId}', password='${password}' WHERE username='${username}'`
         )
         res.setHeader(
           'Set-Cookie',
           `sessionToken=${JSON.stringify({
-            session_id: filter.session_id,
+            sessionId: filter.sessionId,
             username
           })}; max-age=86400; path=/;`
         )

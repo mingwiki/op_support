@@ -1,4 +1,4 @@
-import SQL from '/common/db'
+import SQL from 'common/db'
 
 const api = async (req, res) => {
   try {

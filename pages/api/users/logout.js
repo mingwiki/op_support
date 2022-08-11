@@ -1,6 +1,6 @@
-import SQL from '/common/db'
-import { auth } from '/common/auth'
-import { parseSessionTokenFromCookie } from '/common/parse'
+import SQL from 'common/db'
+import { auth } from 'common/auth'
+import { parseSessionTokenFromCookie } from 'common/parse'
 
 const api = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ const api = async (req, res) => {
       filter.username = username
       if (auth(req)) {
         result = await SQL(
-          'UPDATE users SET session_id=null' +
+          'UPDATE users SET sessionId=null' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)

@@ -4,12 +4,12 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "standard"
+        "plugin:react/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            "modules": true
         },
         "ecmaVersion": "latest",
         "sourceType": "module"
@@ -18,5 +18,16 @@
         "react"
     ],
     "rules": {
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }

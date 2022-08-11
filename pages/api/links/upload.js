@@ -1,6 +1,6 @@
-import SQL from '/common/db'
-import { auth } from '/common/auth'
-import { parseSessionTokenFromCookie } from '/common/parse'
+import SQL from 'common/db'
+import { auth } from 'common/auth'
+import { parseSessionTokenFromCookie } from 'common/parse'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -13,9 +13,9 @@ const api = async (req, res) => {
       const filter = {}
       const { data } = req.body
       const sessionToken = parseSessionTokenFromCookie(req)
-      const { username, session_id } = sessionToken
+      const { username, sessionId } = sessionToken
       filter.username = username
-      filter.session_id = session_id
+      filter.sessionId = sessionId
       if (auth(req)) {
         console.log(filter)
         const temp = await SQL(
@@ -42,7 +42,7 @@ const api = async (req, res) => {
                 .join(', ')})`
           )
         } else {
-          data.map((e) => {
+          data.forEach((e) => {
             e.create_time = datetime
             e.update_time = datetime
             e.isShow = 1

@@ -1,5 +1,5 @@
-import SQL from '/common/db'
-import { genSessionId } from '/common/crypto'
+import SQL from 'common/db'
+import { genSessionId } from 'common/crypto'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -11,16 +11,15 @@ const api = async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
-      const session_id = genSessionId(filter)
+      const sessionId = genSessionId(filter)
       const update = await SQL(
-        `UPDATE users SET update_time = '${datetime}', session_id ='${session_id}'` +
+        `UPDATE users SET update_time = '${datetime}', sessionId ='${sessionId}'` +
           (Object.keys(filter)?.length
             ? ` WHERE ${Object.entries(filter)
                 .flatMap((e) => `${e[0]}='${e[1]}'`)
                 .join(' AND ')}`
             : null)
       )
-      console.log(update)
       if (update.warningCount === 0) {
         result = await SQL(
           'SELECT id, username, nickname, update_time, create_time FROM users' +
@@ -31,12 +30,14 @@ const api = async (req, res) => {
               : null)
         )
         const sessionToken = {
-          session_id,
+          sessionId,
           username: result[0].username
         }
         res.setHeader(
           'Set-Cookie',
-          `sessionToken=${JSON.stringify(sessionToken)}; max-age=86400; path=/;`
+          `sessionToken=${JSON.stringify(
+            sessionToken
+          )}; max-age=86400; path=/;`
         )
         res.status(200).json(result)
       } else {

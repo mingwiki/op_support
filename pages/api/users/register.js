@@ -1,5 +1,5 @@
-import SQL from '/common/db'
-import { genSessionId } from '/common/crypto'
+import SQL from 'common/db'
+import { genSessionId } from 'common/crypto'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -14,7 +14,7 @@ const api = async (req, res) => {
       const { username } = filter
       filter.create_time = datetime
       filter.update_time = datetime
-      filter.session_id = genSessionId(filter)
+      filter.sessionId = genSessionId(filter)
       const check = await SQL(
         `SELECT COUNT(username) FROM users WHERE username='${username}'`
       )
@@ -31,7 +31,7 @@ const api = async (req, res) => {
         res.setHeader(
           'Set-Cookie',
           `sessionToken=${JSON.stringify({
-            session_id: filter.session_id,
+            sessionId: filter.sessionId,
             username: filter.username
           })}; max-age=86400; path=/;`
         )

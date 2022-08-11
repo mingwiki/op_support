@@ -5,5 +5,5 @@ CREATE TABLE users(
     username VARCHAR(50) COMMENT 'username',
     password VARCHAR(50) COMMENT 'password',
     nickname VARCHAR(50) COMMENT 'nickname',
-    session_id VARCHAR(50) COMMENT 'session_id'
+    sessionId VARCHAR(50) COMMENT 'sessionId'
 ) DEFAULT CHARSET UTF8 COMMENT 'Users Info';
