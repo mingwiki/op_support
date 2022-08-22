@@ -45,7 +45,7 @@ const api = async (req, res) => {
         )
         res.status(200).json(result)
       } else {
-        res.status(200).json('帐户不存在或密码不匹配')
+        res.status(200).json(update?.sqlMessage)
       }
     } else {
       res.status(200).json('Not POST request')
