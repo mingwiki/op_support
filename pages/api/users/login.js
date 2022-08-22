@@ -11,6 +11,10 @@ const api = async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
+      if (filter?.username === 'test') {
+        res.status(200).json('测试账户已禁用，请自行注册账户。')
+        // return
+      }
       const sessionId = genSessionId(filter)
       const update = await SQL(
         `UPDATE users SET update_time = '${datetime}', sessionId ='${sessionId}'` +
@@ -47,7 +51,7 @@ const api = async (req, res) => {
       res.status(200).json('Not POST request')
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json('帐户不存在或密码不匹配')
   }
 }
 export default api
