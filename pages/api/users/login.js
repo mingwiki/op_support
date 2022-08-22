@@ -13,7 +13,7 @@ const api = async (req, res) => {
       const { filter } = req.body
       if (filter?.username === 'test') {
         res.status(200).json('测试账户已禁用，请自行注册账户。')
-        // return
+        return
       }
       const sessionId = genSessionId(filter)
       const update = await SQL(
