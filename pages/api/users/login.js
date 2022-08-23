@@ -11,10 +11,6 @@ const api = async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
     if (req.method === 'POST') {
       const { filter } = req.body
-      if (filter?.username === 'test') {
-        res.status(200).json('测试账户已禁用，请自行注册账户。')
-        return
-      }
       const sessionId = genSessionId(filter)
       const update = await SQL(
         `UPDATE users SET update_time = '${datetime}', sessionId ='${sessionId}'` +
@@ -26,13 +22,17 @@ const api = async (req, res) => {
       )
       if (update.warningCount === 0) {
         result = await SQL(
-          'SELECT id, username, nickname, update_time, create_time FROM users' +
+          'SELECT id, username, nickname, update_time, create_time, disabled FROM users' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
                   .join(' AND ')}`
               : null)
         )
+        if (result[0]?.disabled === 1) {
+          res.status(500).json('此账户已禁用，请自行注册或使用其他账户。')
+          return
+        }
         const sessionToken = {
           sessionId,
           username: result[0].username
