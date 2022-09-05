@@ -17,14 +17,13 @@ const api = async (req, res) => {
       filter.username = username
       filter.sessionId = sessionId
       if (auth(req)) {
-        console.log(filter)
         const temp = await SQL(
           'SELECT * FROM users' +
             (Object.keys(filter)?.length
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
                   .join(' AND ')}`
-              : null)
+              : null),
         )
         if (!Array.isArray(data)) {
           data.create_time = datetime
@@ -39,7 +38,7 @@ const api = async (req, res) => {
                 .join(', ')})` +
               ` VALUES(${Object.entries(data)
                 .flatMap((e) => `'${e[1]}'`)
-                .join(', ')})`
+                .join(', ')})`,
           )
         } else {
           data.forEach((e) => {
@@ -58,9 +57,9 @@ const api = async (req, res) => {
                 .map((e) =>
                   Object.entries(e)
                     .flatMap((i) => `'${i[1]}'`)
-                    .join(', ')
+                    .join(', '),
                 )
-                .join('), (')})`
+                .join('), (')})`,
           )
         }
         res.status(200).json(result)
