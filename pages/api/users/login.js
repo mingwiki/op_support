@@ -1,5 +1,6 @@
 import SQL from 'common/db'
 import { genSessionId } from 'common/crypto'
+import setHeader from 'common/setHeader'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -33,16 +34,7 @@ const api = async (req, res) => {
           res.status(500).json('此账户已禁用，请自行注册或使用其他账户。')
           return
         }
-        const sessionToken = {
-          sessionId,
-          username: result[0].username
-        }
-        res.setHeader(
-          'Set-Cookie',
-          `sessionToken=${JSON.stringify(
-            sessionToken
-          )}; max-age=86400; path=/;`
-        )
+        setHeader(res, sessionId, result[0].username)
         res.status(200).json(result)
       } else {
         res.status(200).json(update?.sqlMessage)

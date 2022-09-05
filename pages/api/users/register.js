@@ -1,5 +1,6 @@
 import SQL from 'common/db'
 import { genSessionId } from 'common/crypto'
+import setHeader from 'common/setHeader'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -28,13 +29,7 @@ const api = async (req, res) => {
               .flatMap((e) => `'${e[1]}'`)
               .join(', ')})`
         )
-        res.setHeader(
-          'Set-Cookie',
-          `sessionToken=${JSON.stringify({
-            sessionId: filter.sessionId,
-            username: filter.username
-          })}; max-age=86400; path=/;`
-        )
+        setHeader(res, filter.sessionId, filter.username)
         res.status(200).json(result)
       } else {
         res.status(200).json('账户已存在')

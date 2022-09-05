@@ -2,6 +2,7 @@ import SQL from 'common/db'
 import { genSessionId } from 'common/crypto'
 import { auth } from 'common/auth'
 import { parseSessionTokenFromCookie } from 'common/parse'
+import setHeader from 'common/setHeader'
 const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
@@ -20,15 +21,9 @@ const api = async (req, res) => {
       filter.sessionId = genSessionId(filter)
       if (auth(req)) {
         result = await SQL(
-          `UPDATE users SET update_time='${filter.update_time}', sessionId='${filter.sessionId}', password='${password}' WHERE username='${username}'`
+          `UPDATE users SET update_time='${filter.update_time}', sessionId='${filter.sessionId}', password='${password}' WHERE username='${username}'`,
         )
-        res.setHeader(
-          'Set-Cookie',
-          `sessionToken=${JSON.stringify({
-            sessionId: filter.sessionId,
-            username
-          })}; max-age=86400; path=/;`
-        )
+        setHeader(res, filter.sessionId, username)
         res.status(200).json(result)
       } else {
         res.status(200).json('账户不存在')
