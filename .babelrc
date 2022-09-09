@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "next/babel"
+  ], // 覆盖nextjs的默认babel配置，以本文件的babel配置为准
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "ssr": true
+      } // 预编译样式
+    ]
+  ]
+}
