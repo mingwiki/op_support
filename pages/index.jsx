@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import context from '../stores'
 import { Button, Layout } from 'antd'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import gsap from 'gsap'
-const Sidebar = lazy(() => import('components/Sidebar'))
 const PageHeader = lazy(() => import('components/PageHeader'))
 const Wrapper = lazy(() => import('components/Wrapper'))
 const Welcome = styled.div`
@@ -50,29 +50,34 @@ const Component = observer(() => {
       onBack: () => router.back().back(),
       title: '',
       subTitle: '',
-      extra: currentUser
-        ? [
-            <Button key={2} onClick={() => router.push('/changePassword')}>
-              修改密码
-            </Button>,
-            <Button key={3} type='primary' danger onClick={() => logout()}>
-              注销
-            </Button>,
-          ]
-        : [
-            <Button
-              key={1}
-              type='primary'
-              onClick={() => router.push('/login')}>
-              登录
-            </Button>,
-            <Button
-              key={2}
-              type='primary'
-              onClick={() => router.push('/register')}>
-              注册
-            </Button>,
-          ],
+      extra: [
+        <Button key={0} onClick={() => router.push('/genAppletLinks')}>
+          生成支付宝链接
+        </Button>,
+        ...(currentUser
+          ? [
+              <Button key={2} onClick={() => router.push('/changePassword')}>
+                修改密码
+              </Button>,
+              <Button key={3} type='primary' danger onClick={() => logout()}>
+                注销
+              </Button>,
+            ]
+          : [
+              <Button
+                key={1}
+                type='primary'
+                onClick={() => router.push('/login')}>
+                登录
+              </Button>,
+              <Button
+                key={2}
+                type='primary'
+                onClick={() => router.push('/register')}>
+                注册
+              </Button>,
+            ]),
+      ],
     })
   }, [currentUser])
   useEffect(() => {
@@ -80,7 +85,6 @@ const Component = observer(() => {
   }, [])
   return (
     <MainLayout>
-      <Sidebar ref={ref} />
       <Layout>
         <PageHeader {...headers} ref={ref} />
         <Wrapper ref={ref}>
