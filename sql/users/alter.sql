@@ -1,2 +1,0 @@
-ALTER TABLE users
-MODIFY COLUMN sessionId VARCHAR(64) COMMENT 'SHA256 Hex of sessionId'
