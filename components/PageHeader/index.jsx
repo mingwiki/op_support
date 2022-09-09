@@ -1,12 +1,10 @@
-import React, { forwardRef } from 'react'
 import { PageHeader } from 'antd'
-
-const Component = forwardRef((props, ref) => {
+const Component = (props) => {
   return (
-    <div ref={ref?.headerRef}>
+    <div>
       <PageHeader {...props} />
     </div>
   )
-})
+}
 
 export default Component

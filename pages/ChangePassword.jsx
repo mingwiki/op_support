@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Form, Input, Button, message, Space } from 'antd'
 import context from '../stores/index'
 import styled from 'styled-components'
-
+import Wrapper from 'components/Wrapper'
 const AbsoluteTips = styled.div`
   font-size: 36px;
   margin: 50px 0;
@@ -16,7 +16,7 @@ const InnerWrapper = styled.div`
 const Component = () => {
   const { AuthStore, HeaderStore, UserStore } = useContext(context)
   const { currentUser } = UserStore
-  let router = useRouter()
+  const router = useRouter()
   const onFinish = (values) => {
     AuthStore.setPassword(values.password)
     AuthStore.changePassword()
@@ -45,9 +45,8 @@ const Component = () => {
       extra: [],
     })
   }, [])
-  console.log(currentUser)
   return (
-    <>
+    <Wrapper>
       <InnerWrapper>
         <AbsoluteTips>修改密码页面</AbsoluteTips>
         <Form
@@ -118,7 +117,7 @@ const Component = () => {
           </Form.Item>
         </Form>
       </InnerWrapper>
-    </>
+    </Wrapper>
   )
 }
 

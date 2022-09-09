@@ -28,6 +28,7 @@ import {
 import { copyToClipboard } from '../../utils'
 import { QRCodeCanvas } from 'qrcode.react'
 import { useRouter } from 'next/router'
+import Wrapper from 'components/Wrapper'
 const { Text } = Typography
 
 const StyledInputWrapper = styled.div`
@@ -68,8 +69,7 @@ const WrapSpace = styled(Space)`
 const Component = observer(() => {
   const [isShowPopover, setIsShowPopover] = useState(false)
   const [isUploaded, setIsUploaded] = useState(false)
-  const { UrlStore, HeaderStore } = useContext(context)
-  const router = useRouter()
+  const { UrlStore, HeaderStore, UserStore, AuthStore } = useContext(context)
   const {
     textInfo,
     pageCheckQueries,
@@ -86,13 +86,15 @@ const Component = observer(() => {
     setGlobalInputQueries,
     setLinkName,
     setPageCheckData,
-    clear,
     splitEnterId,
     splitSourceOrigin,
     checkEnterId,
     uploadUrl,
   } = UrlStore
   const { setHeaders } = HeaderStore
+  const { currentUser } = UserStore
+  const { logout } = AuthStore
+  const router = useRouter()
   const deferredEncodedUrl = useDeferredValue(getEncodedUrl())
   const redirectUrl = `https://gkzx.jujienet.com/broadband-web/redirect/${encodeURIComponent(
     deferredEncodedUrl,
@@ -142,7 +144,6 @@ const Component = observer(() => {
         url: deferredEncodedUrl,
       }).then(
         (res) => {
-          console.log(res)
           notification.success({
             description: `已上传${linkName}`,
           })
@@ -168,48 +169,85 @@ const Component = observer(() => {
     document.title = '生成小程序链接'
     setHeaders({
       ghost: false,
-      onBack: () => router.back(),
       title: 'No. 1',
       subTitle: '帮助运营快速生成小程序链接',
+      onBack: () => router.back(),
       extra: [
-        <Button
-          key={1}
-          danger
-          onClick={() => {
-            setTextInfo('小程序名称和对应页面')
-            setIsShowPopover(false)
-            clear()
-            notification.warning({ description: '页面数据已全部清除' })
-          }}>
-          清空页面
+        <Button type='dashed' key={-1} onClick={() => router.push('/')}>
+          首页
         </Button>,
-      ],
-    })
-  }, [])
-  return (
-    <>
-      <Radio.Group value={'alipay'} size='large'>
-        <Radio value={'alipay'}>
-          <AlipayCircleOutlined /> alipays 协议
-        </Radio>
-      </Radio.Group>
-      <WrapSpace>
-        <Cascader
-          options={cascaderData}
-          onChange={onChangeAppPage}
-          size='large'
-          notFoundContent='无数据'>
-          <a href='/#'>
-            <Button type='primary'>点击选择或切换</Button>
-          </a>
-        </Cascader>
         <Button
           type='dashed'
-          disabled
-          style={{ backgroundColor: '#ffc9c9', color: 'black' }}>
-          {textInfo}
-        </Button>
-      </WrapSpace>
+          key={0}
+          onClick={() => router.push('/genAppletLinks')}>
+          生成链接
+        </Button>,
+        <Button type='dashed' key={1} onClick={() => router.push('/genQRCode')}>
+          生成二维码
+        </Button>,
+        <Button
+          type='dashed'
+          key={2}
+          onClick={() => router.push('/queryLinks')}>
+          查询链接
+        </Button>,
+        ...(currentUser
+          ? [
+              <Button key={99} onClick={() => router.push('/changePassword')}>
+                修改密码
+              </Button>,
+              <Button key={100} type='primary' danger onClick={() => logout()}>
+                注销
+              </Button>,
+            ]
+          : [
+              <Button
+                key={99}
+                type='primary'
+                onClick={() => router.push('/login')}>
+                登录
+              </Button>,
+              <Button
+                key={100}
+                type='primary'
+                onClick={() => router.push('/register')}>
+                注册
+              </Button>,
+            ]),
+      ],
+    })
+  }, [currentUser])
+  return (
+    <Wrapper>
+      {currentUser ? (
+        <>
+          <Radio.Group value={'alipay'} size='large'>
+            <Radio value={'alipay'}>
+              <AlipayCircleOutlined /> alipays 协议
+            </Radio>
+          </Radio.Group>
+          <WrapSpace>
+            <Cascader
+              options={cascaderData}
+              onChange={onChangeAppPage}
+              size='large'
+              notFoundContent='无数据'>
+              <a href='/#'>
+                <Button type='primary'>点击选择或切换</Button>
+              </a>
+            </Cascader>
+            <Button
+              type='dashed'
+              disabled
+              style={{ backgroundColor: '#ffc9c9', color: 'black' }}>
+              {textInfo}
+            </Button>
+          </WrapSpace>
+        </>
+      ) : (
+        '请先登录'
+      )}
+
       {!deferredEncodedUrl ? null : (
         <>
           <ParamsWrapper>
@@ -378,7 +416,6 @@ const Component = observer(() => {
                 onClick={() => {
                   checkEnterId(deferredEncodedUrl).then(
                     (res) => {
-                      console.log(res)
                       if (res.length > 0) {
                         res.map((item) =>
                           notification.error({
@@ -485,7 +522,7 @@ const Component = observer(() => {
           }
         </>
       )}
-    </>
+    </Wrapper>
   )
 })
 
