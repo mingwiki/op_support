@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDeferredValue, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { observer } from 'mobx-react'
 import {
   Cascader,
@@ -156,46 +156,44 @@ const Component = observer(() => {
       {currentUser ? (
         <SubWrapper>
           <Details>
-            {links.map((link, idx) => {
-              return (
-                <StyledInputWrapper key={idx}>
-                  <StyledText>编号{idx + 1}</StyledText>
-                  <StyledInput
-                    placeholder='请输入链接或文字'
-                    value={link}
-                    onChange={(e) => {
+            {links.map((link, idx) => (
+              <StyledInputWrapper key={idx}>
+                <StyledText>编号{idx + 1}</StyledText>
+                <StyledInput
+                  placeholder='请输入链接或文字'
+                  value={link}
+                  onInput={(e) => {
+                    const temp = [...links]
+                    temp[idx] = e.target.value
+                    setLinks(temp)
+                    if (isShow) setIsShow(false)
+                  }}
+                />
+                <ButtonWrapper>
+                  <Button
+                    type='primary'
+                    onClick={() => {
                       const temp = [...links]
-                      temp[idx] = e.target.value
-                      setIsShow(false)
+                      temp.splice(idx, 1)
+                      if (temp.length === 0) temp.push('')
                       setLinks(temp)
-                    }}
-                  />
-                  <ButtonWrapper>
+                    }}>
+                    -
+                  </Button>
+                  {idx === links.length - 1 ? (
                     <Button
                       type='primary'
                       onClick={() => {
                         const temp = [...links]
-                        temp.splice(idx, 1)
-                        if (temp.length === 0) temp.push('')
+                        temp.push('')
                         setLinks(temp)
                       }}>
-                      -
+                      +
                     </Button>
-                    {idx === links.length - 1 ? (
-                      <Button
-                        type='primary'
-                        onClick={() => {
-                          const temp = [...links]
-                          temp.push('')
-                          setLinks(temp)
-                        }}>
-                        +
-                      </Button>
-                    ) : null}
-                  </ButtonWrapper>
-                </StyledInputWrapper>
-              )
-            })}
+                  ) : null}
+                </ButtonWrapper>
+              </StyledInputWrapper>
+            ))}
             <Button
               type='primary'
               style={{
@@ -214,22 +212,20 @@ const Component = observer(() => {
             </Button>
             <Title>历史记录</Title>
             {queries?.length > 0 &&
-              queries.map((i, idx) => {
-                return (
-                  <Space key={idx}>
-                    <Text>by {i.nickname}</Text>
-                    <Text>at: {new Date(i.update_time).toLocaleString()}</Text>
-                    <Link
-                      onClick={() => {
-                        const temp = [...links]
-                        temp.push(i.url)
-                        setLinks(temp)
-                      }}>
-                      ( {i.url} )
-                    </Link>
-                  </Space>
-                )
-              })}
+              queries.map((i, idx) => (
+                <Space key={idx}>
+                  <Text>by {i.nickname}</Text>
+                  <Text>at: {new Date(i.update_time).toLocaleString()}</Text>
+                  <Link
+                    onClick={() => {
+                      const temp = [...links]
+                      temp.push(i.url)
+                      setLinks(temp)
+                    }}>
+                    ( {i.url} )
+                  </Link>
+                </Space>
+              ))}
           </Details>
           <QRCodes>
             {links.map((link, idx) => {

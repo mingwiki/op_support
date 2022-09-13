@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 import { Url } from '../models/index'
 import { miniAppIds, miniAppPages } from '../data'
+import { enableStaticRendering } from 'mobx-react'
+enableStaticRendering(typeof window === 'undefined')
 class UrlStore {
   textInfo = '小程序名称和对应页面'
   appId = null
@@ -83,19 +85,19 @@ class UrlStore {
     this.pagePath = pagePath
   }
   setPageCheckQueries = (pageCheckQueries) => {
-    this.pageCheckQueries = pageCheckQueries
+    this.pageCheckQueries = [...pageCheckQueries]
   }
   setPageInputQueries = (pageInputQueries) => {
-    this.pageInputQueries = pageInputQueries
+    this.pageInputQueries = [...pageInputQueries]
   }
   setGlobalInputQueries = (globalInputQueries) => {
-    this.globalInputQueries = globalInputQueries
+    this.globalInputQueries = [...globalInputQueries]
   }
   setLinkName = (linkName) => {
     this.linkName = linkName
   }
   setPageCheckData = (pageCheckData) => {
-    this.pageCheckData = pageCheckData
+    this.pageCheckData = [...pageCheckData]
   }
   setIsQueryAll = (isQueryAll) => {
     this.isQueryAll = isQueryAll === true ? true : false

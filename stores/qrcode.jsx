@@ -1,6 +1,8 @@
 import { notification } from 'antd'
 import { makeAutoObservable } from 'mobx'
 import { Url } from '../models/index'
+import { enableStaticRendering } from 'mobx-react'
+enableStaticRendering(typeof window === 'undefined')
 class QrcodeStore {
   links = ['', '']
   constructor() {

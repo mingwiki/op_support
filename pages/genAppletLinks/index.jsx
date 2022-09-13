@@ -483,8 +483,8 @@ const Component = observer(() => {
               content={<QRCodeCanvas value={deferredEncodedUrl} size={200} />}
               title='请扫描二维码'
               trigger='click'
-              visible={isShowPopover}
-              onVisibleChange={() => {
+              open={isShowPopover}
+              onOpenChange={() => {
                 if (isUploaded) {
                   setIsShowPopover(!isShowPopover)
                   notification.success({ description: '二维码已生成' })

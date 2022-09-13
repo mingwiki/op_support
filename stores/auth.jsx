@@ -3,6 +3,8 @@ import { Auth } from '../models/index'
 import UserStore from './user'
 import UrlStore from './url'
 import QueyLinks from './queyLinks'
+import { enableStaticRendering } from 'mobx-react'
+enableStaticRendering(typeof window === 'undefined')
 class AuthStore {
   values = {
     username: '',

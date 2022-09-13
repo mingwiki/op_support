@@ -8,6 +8,12 @@
       {
         "ssr": true
       } // 预编译样式
+    ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
     ]
   ]
 }

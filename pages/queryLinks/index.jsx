@@ -27,6 +27,7 @@ import { QRCodeCanvas } from 'qrcode.react'
 import { useRouter } from 'next/router'
 import Wrapper from 'components/Wrapper'
 import { headers } from 'next.config'
+const { Text } = Typography
 const CardFlex = styled.div`
   display: flex;
   align-items: center;
@@ -36,6 +37,11 @@ const MarginRightDiv = styled.div`
   border: 1px dashed grey;
   border-radius: 10px;
   padding: 0 5px;
+`
+const WrapText = styled(Text)`
+  max-width: 600px;
+  white-space: pre-wrap;
+  word-break: break-all;
 `
 const NameLabel = styled.div`
   display: flex;
@@ -57,7 +63,6 @@ const StyledDeleteOutlined = styled(DeleteOutlined)`
 const WrapSpace = styled(Space)`
   flex-wrap: wrap;
 `
-const { Text } = Typography
 const Component = () => {
   const { AuthStore, UserStore, UrlStore, QueyLinksStore, HeaderStore } =
     useContext(context)
@@ -276,7 +281,7 @@ const Component = () => {
                     <Card
                       title={
                         <CardFlex>
-                          <Text strong>{e?.linkName || e?.url}</Text>
+                          <WrapText strong>{e?.linkName || e?.url}</WrapText>
                           <NameLabel>
                             <MarginRightDiv>{e?.nickname}</MarginRightDiv>
                             <MarginRightDiv>
@@ -319,8 +324,8 @@ const Component = () => {
                             content={<QRCodeCanvas value={e?.url} size={200} />}
                             title='请扫描二维码'
                             trigger='click'
-                            visible={isShowDrawerQR[idx]}
-                            onVisibleChange={() => {
+                            open={isShowDrawerQR[idx]}
+                            onOpenChange={() => {
                               const temp = [...isShowDrawerQR]
                               temp[idx] = !temp[idx]
                               setIsShowDrawerQR(temp)
