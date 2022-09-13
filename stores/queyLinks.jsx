@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { enableStaticRendering } from 'mobx-react'
+import initializeStore from './init'
+import { enableStaticRendering } from 'mobx-react-lite'
 enableStaticRendering(typeof window === 'undefined')
 class QueyLinksStore {
   constructor() {
@@ -14,9 +15,9 @@ class QueyLinksStore {
     const temp = [...localUrls] || []
     this.localUrls = temp
   }
-  clear= () => {
+  clear = () => {
     this.isSyncing = false
     this.localUrls = []
   }
 }
-export default new QueyLinksStore()
+export default initializeStore(QueyLinksStore)

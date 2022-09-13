@@ -3,7 +3,8 @@ import { Auth } from '../models/index'
 import UserStore from './user'
 import UrlStore from './url'
 import QueyLinks from './queyLinks'
-import { enableStaticRendering } from 'mobx-react'
+import initializeStore from './init'
+import { enableStaticRendering } from 'mobx-react-lite'
 enableStaticRendering(typeof window === 'undefined')
 class AuthStore {
   values = {
@@ -90,4 +91,4 @@ class AuthStore {
   }
 }
 
-export default new AuthStore()
+export default initializeStore(AuthStore)

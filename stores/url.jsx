@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 import { Url } from '../models/index'
 import { miniAppIds, miniAppPages } from '../data'
-import { enableStaticRendering } from 'mobx-react'
+import initializeStore from './init'
+import { enableStaticRendering } from 'mobx-react-lite'
 enableStaticRendering(typeof window === 'undefined')
 class UrlStore {
   textInfo = '小程序名称和对应页面'
@@ -240,4 +241,4 @@ class UrlStore {
   }
 }
 
-export default new UrlStore()
+export default initializeStore(UrlStore)

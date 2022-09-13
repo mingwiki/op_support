@@ -1,6 +1,6 @@
 {
-  "name": "toolkits-server",
-  "version": "0.1.0",
+  "name": "op_support",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
@@ -11,8 +11,12 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/plugin-proposal-decorators": "^7.19.0",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
     "antd": "^4.23.0",
     "babel-plugin-styled-components": "^2.0.7",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "crypto-js": "^4.1.1",
     "mobx-react": "^7.5.3",
     "moment": "^2.29.3",

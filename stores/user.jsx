@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { Auth } from '../models/index'
-import { enableStaticRendering } from 'mobx-react'
+import initializeStore from './init'
+import { enableStaticRendering } from 'mobx-react-lite'
 enableStaticRendering(typeof window === 'undefined')
 class UserStore {
   currentUser = null
@@ -15,4 +16,4 @@ class UserStore {
   }
 }
 
-export default new UserStore()
+export default initializeStore(UserStore)

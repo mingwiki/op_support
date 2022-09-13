@@ -4,10 +4,12 @@ import { observer } from 'mobx-react'
 import context from '../stores'
 import Wrapper from 'components/Wrapper'
 import { useRouter } from 'next/router'
+import AuthStore from '../stores/auth'
 const Component = observer(() => {
-  const { AuthStore, UserStore, HeaderStore } = useContext(context)
+  const { UserStore, HeaderStore } = useContext(context)
   const { currentUser } = UserStore
   const { getAllUsers } = AuthStore
+  // console.log('getAllUsers', getAllUsers)
   const [users, setUsers] = useState([])
   const { logout } = AuthStore
   const { setHeaders } = HeaderStore

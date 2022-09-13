@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { enableStaticRendering } from 'mobx-react'
+import initializeStore from './init'
+import { enableStaticRendering } from 'mobx-react-lite'
 enableStaticRendering(typeof window === 'undefined')
 class HeaderStore {
   constructor() {
@@ -10,4 +11,4 @@ class HeaderStore {
     this.headers = { ...headers } || {}
   }
 }
-export default new HeaderStore()
+export default initializeStore(HeaderStore)

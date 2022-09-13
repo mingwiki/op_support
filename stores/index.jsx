@@ -13,5 +13,4 @@ const context = createContext({
   HeaderStore,
   QrcodeStore,
 })
-console.log(context)
 export default context
