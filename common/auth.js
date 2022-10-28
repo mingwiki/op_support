@@ -11,5 +11,5 @@ export const auth = async (req) => {
             .join(' AND ')}`
         : null),
   )
-  return check[0]['COUNT(sessionId)'] === 1
+  return check[0] && check[0]['COUNT(sessionId)'] === 1
 }

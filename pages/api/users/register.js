@@ -17,9 +17,9 @@ const api = async (req, res) => {
       filter.update_time = datetime
       filter.sessionId = genSessionId(filter)
       const check = await SQL(
-        `SELECT COUNT(username) FROM users WHERE username='${username}'`
+        `SELECT COUNT(username) FROM users WHERE username='${username}'`,
       )
-      if (check[0]['COUNT(username)'] === 0) {
+      if (check[0] && check[0]['COUNT(username)'] === 0) {
         result = await SQL(
           'INSERT INTO users' +
             `(${Object.entries(filter)
@@ -27,7 +27,7 @@ const api = async (req, res) => {
               .join(', ')})` +
             ` VALUES(${Object.entries(filter)
               .flatMap((e) => `'${e[1]}'`)
-              .join(', ')})`
+              .join(', ')})`,
         )
         setHeader(res, filter.sessionId, filter.username)
         res.status(200).json(result)
