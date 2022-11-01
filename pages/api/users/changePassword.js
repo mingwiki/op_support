@@ -3,7 +3,7 @@ import { genSessionId } from 'common/crypto'
 import { auth } from 'common/auth'
 import { parseSessionTokenFromCookie } from 'common/parse'
 import setHeader from 'common/setHeader'
-const datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
+let datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
 
 const api = async (req, res) => {
   try {
