@@ -1,9 +1,9 @@
 import SQL from 'common/db'
 import { genSessionId } from 'common/crypto'
 import setHeader from 'common/setHeader'
-let datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
-
+import moment from 'moment'
 const api = async (req, res) => {
+  const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -19,7 +19,7 @@ const api = async (req, res) => {
             ? ` WHERE ${Object.entries(filter)
                 .flatMap((e) => `${e[0]}='${e[1]}'`)
                 .join(' AND ')}`
-            : null)
+            : null),
       )
       if (update.warningCount === 0) {
         result = await SQL(
@@ -28,7 +28,7 @@ const api = async (req, res) => {
               ? ` WHERE ${Object.entries(filter)
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
                   .join(' AND ')}`
-              : null)
+              : null),
         )
         if (result[0]?.disabled === 1) {
           res.status(500).json('此账户已禁用，请自行注册或使用其他账户。')

@@ -3,9 +3,9 @@ import { genSessionId } from 'common/crypto'
 import { auth } from 'common/auth'
 import { parseSessionTokenFromCookie } from 'common/parse'
 import setHeader from 'common/setHeader'
-let datetime = require('moment')().format('YYYY-MM-DD HH:mm:ss')
-
+import moment from 'moment'
 const api = async (req, res) => {
+  const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')
