@@ -1,3 +1,5 @@
+/** @format */
+
 // db.js
 import mysql from 'serverless-mysql'
 const db = mysql({
@@ -6,13 +8,14 @@ const db = mysql({
     port: process.env.MYSQL_PORT,
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD
-  }
+    password: process.env.MYSQL_PASSWORD,
+  },
 })
-export default async function SQL (sql) {
+export default async function SQL(sql) {
   try {
+    console.log(sql)
     const results = await db.query(sql)
-    await db.query(`INSERT INTO logs (log) VALUES ("${sql}")`)
+    console.log(results)
     await db.end()
     return results
   } catch (error) {
