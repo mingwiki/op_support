@@ -1,3 +1,5 @@
+/** @format */
+
 import SQL from 'common/db'
 import { genSessionId } from 'common/crypto'
 import setHeader from 'common/setHeader'

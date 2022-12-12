@@ -1,3 +1,5 @@
+/** @format */
+
 import SQL from 'common/db'
 import { auth } from 'common/auth'
 import { parseSessionTokenFromCookie } from 'common/parse'
@@ -25,7 +27,7 @@ const api = async (req, res) => {
                   .flatMap((e) => `${e[0]}='${e[1]}'`)
                   .join(' AND ')}`
               : null) +
-            (orderBy ? ` ORDER BY ${orderBy}` : null)
+            (orderBy ? ` ORDER BY ${orderBy}` : null),
         )
         res.status(200).json(result)
       } else {

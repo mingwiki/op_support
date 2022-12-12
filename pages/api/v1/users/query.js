@@ -1,3 +1,5 @@
+/** @format */
+
 import SQL from 'common/db'
 import { parseSessionTokenFromCookie } from 'common/parse'
 import { auth } from 'common/auth'

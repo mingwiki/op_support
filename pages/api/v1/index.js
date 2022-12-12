@@ -1,3 +1,5 @@
+/** @format */
+
 import SQL from 'common/db'
 
 const api = async (req, res) => {

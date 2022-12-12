@@ -1,6 +1,10 @@
-// tsconfig.json or jsconfig.json
 {
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "common/*": [
+        "./common/v1/*"
+      ]
+    }
   }
 }
