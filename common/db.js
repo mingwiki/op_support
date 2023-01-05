@@ -4,11 +4,11 @@
 import mysql from 'serverless-mysql'
 const db = mysql({
   config: {
-    host: import.meta.env.MYSQL_HOST,
-    port: import.meta.env.MYSQL_PORT,
-    database: import.meta.env.MYSQL_DATABASE,
-    user: import.meta.env.MYSQL_USER,
-    password: import.meta.env.MYSQL_PASSWORD,
+    host: import.meta.env.VITE_MYSQL_HOST,
+    port: import.meta.env.VITE_MYSQL_PORT,
+    database: import.meta.env.VITE_MYSQL_DATABASE,
+    user: import.meta.env.VITE_MYSQL_USER,
+    password: import.meta.env.VITE_MYSQL_PASSWORD,
   },
 })
 export default async function SQL(sql) {
