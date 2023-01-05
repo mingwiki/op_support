@@ -15,7 +15,6 @@ export default async function SQL(sql) {
   try {
     console.log(sql)
     const results = await db.query(sql)
-    console.log(results)
     await db.end()
     return results
   } catch (error) {
