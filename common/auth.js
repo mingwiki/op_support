@@ -1,5 +1,5 @@
 import { parseSessionTokenFromCookie } from './parse'
-import SQL from 'common/db'
+import SQL from '/common/db'
 export const auth = async (req) => {
   const sessionToken = parseSessionTokenFromCookie(req)
   if (Object.keys(sessionToken).length < 1) return false

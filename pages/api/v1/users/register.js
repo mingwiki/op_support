@@ -1,8 +1,8 @@
 /** @format */
 
-import SQL from 'common/db'
-import { genSessionId } from 'common/crypto'
-import setHeader from 'common/setHeader'
+import SQL from '/common/db'
+import { genSessionId } from '/common/crypto'
+import setHeader from '/common/setHeader'
 import moment from 'moment'
 const api = async (req, res) => {
   const datetime = moment().format('YYYY-MM-DD HH:mm:ss')

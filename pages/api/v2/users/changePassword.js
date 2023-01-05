@@ -1,10 +1,10 @@
 /** @format */
 
-import SQL from 'common/db'
-import { parseSessionTokenFromCookie } from 'common/parse'
-import { request } from 'common/public'
-import setHeader from 'common/setHeader'
-import { genSessionId } from 'common/crypto'
+import SQL from '/common/db'
+import { parseSessionTokenFromCookie } from '/common/parse'
+import { request } from '/common/public'
+import setHeader from '/common/setHeader'
+import { genSessionId } from '/common/crypto'
 import moment from 'moment'
 export default (req, res) =>
   request(req, res, async () => {

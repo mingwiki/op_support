@@ -1,9 +1,9 @@
 /** @format */
 
-import SQL from 'common/db'
-import { request } from 'common/public'
-import { genSessionId } from 'common/crypto'
-import setHeader from 'common/setHeader'
+import SQL from '/common/db'
+import { request } from '/common/public'
+import { genSessionId } from '/common/crypto'
+import setHeader from '/common/setHeader'
 import moment from 'moment'
 export default (req, res) =>
   request(

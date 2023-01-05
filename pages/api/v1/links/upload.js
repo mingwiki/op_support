@@ -1,8 +1,8 @@
 /** @format */
 
-import SQL from 'common/db'
-import { auth } from 'common/auth'
-import { parseSessionTokenFromCookie } from 'common/parse'
+import SQL from '/common/db'
+import { auth } from '/common/auth'
+import { parseSessionTokenFromCookie } from '/common/parse'
 import moment from 'moment'
 const api = async (req, res) => {
   const datetime = moment().format('YYYY-MM-DD HH:mm:ss')

@@ -1,8 +1,8 @@
 /** @format */
 
-import SQL from 'common/db'
-import { request } from 'common/public'
-import { parseSessionTokenFromCookie } from 'common/parse'
+import SQL from '/common/db'
+import { request } from '/common/public'
+import { parseSessionTokenFromCookie } from '/common/parse'
 export default (req, res) =>
   request(req, res, async () => {
     const { filter } = req.body

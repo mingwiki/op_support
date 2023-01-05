@@ -1,6 +1,6 @@
 /** @format */
 
-import { auth } from 'common/auth'
+import { auth } from '/common/auth'
 export const request = async (req, res, fn, pass = false) => {
   try {
     res.setHeader('Access-Control-Allow-Origin', '*')

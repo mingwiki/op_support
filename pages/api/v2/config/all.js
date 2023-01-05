@@ -1,7 +1,7 @@
 /** @format */
 
-import SQL from 'common/db'
-import { request } from 'common/public'
+import SQL from '/common/db'
+import { request } from '/common/public'
 
 export default (req, res) =>
   request(req, res, async () => {
