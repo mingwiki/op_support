@@ -20,6 +20,6 @@ export default (req, res) =>
               .flatMap((e) => `a.${e[0]}='${e[1]}'`)
               .join(' AND ')}`
           : null) +
-        (orderBy ? ` ORDER BY ${orderBy}` : null)
+        (orderBy ? ` ORDER BY a.${orderBy}` : null)
     )
   })
