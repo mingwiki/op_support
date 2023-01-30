@@ -1,5 +1,3 @@
-/** @format */
-
 import { auth } from '/common/auth'
 export const request = async (req, res, fn, pass = false) => {
   try {

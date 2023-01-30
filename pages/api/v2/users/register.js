@@ -1,5 +1,3 @@
-/** @format */
-
 import SQL from '/common/db'
 import { request } from '/common/public'
 import { genSessionId } from '/common/crypto'

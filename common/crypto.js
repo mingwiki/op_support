@@ -1,5 +1,4 @@
 import CryptoJS from 'crypto-js'
-
 export const genSessionId = (filter) => {
   return CryptoJS.SHA256(
     Object.entries(filter)
