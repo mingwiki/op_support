@@ -8,27 +8,34 @@ export default (req, res) =>
     const data = []
     filter.map(async (i) => {
       const { id, appId } = i
-      const res = await SQL(
-        `update config set hide=true where appId='${appId}' and id='${id}'`
+      const check = await SQL(
+        `select count(id) from config where appId='${appId}' and id='${id}' and hide is null`
       )
-      if (res.warningCount === 0) {
-        if (!i.hide) {
-          delete i.id
-          delete i.hide
-          delete i.appName
-          i.username = username
-          const keys = Object.keys(i)
-          return await SQL(`
-        insert into config (${keys.join(',')}) values('${keys
-            .map((key) => i[key])
-            .join("','")}')
-        `)
+      if (check?.[0]?.['count(id)'] !== 0 || !id) {
+        const res = await SQL(
+          `update config set hide=true where appId='${appId}' and id='${id}'`
+        )
+        if (res.warningCount === 0 || id === null) {
+          if (!i.hide) {
+            delete i.id
+            delete i.hide
+            delete i.appName
+            i.username = username
+            const keys = Object.keys(i)
+            await SQL(`
+          insert into config (${keys.join(',')}) values('${keys
+              .map((key) => i[key])
+              .join("','")}')
+          `)
+          } else {
+            console.log('delete this', i)
+            data.push(i)
+          }
         } else {
-          console.log('error', i)
-          data.push(i)
+          data.push(res)
         }
       } else {
-        return data.push(res)
+        data.push(check)
       }
     })
     return data
