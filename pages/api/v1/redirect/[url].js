@@ -1,5 +1,3 @@
-/** @format */
-
 const api = async (req, res) => {
   const { url } = req.query
   const realUrl = decodeURIComponent(url)

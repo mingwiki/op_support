@@ -1,3 +1,9 @@
 {
-  "extends": "next"
+  "plugins": [
+    "next"
+  ],
+  "extends": [
+    "next",
+    "eslint:recommended"
+  ]
 }

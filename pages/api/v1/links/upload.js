@@ -3,9 +3,9 @@
 import SQL from '/common/db'
 import { auth } from '/common/auth'
 import { parseSessionTokenFromCookie } from '/common/parse'
-import moment from 'moment'
+import dayjs from 'dayjs'
 const api = async (req, res) => {
-  const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+  const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss')
   try {
     let result
     res.setHeader('Access-Control-Allow-Origin', '*')

@@ -2,13 +2,13 @@ import SQL from '/common/db'
 import { request } from '/common/public'
 import { genSessionId } from '/common/crypto'
 import setHeader from '/common/setHeader'
-import moment from 'moment'
+import dayjs from 'dayjs'
 export default (req, res) =>
   request(
     req,
     res,
     async () => {
-      const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+      const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss')
       const { filter } = req.body
       const sessionId = genSessionId(filter)
       const update = await SQL(

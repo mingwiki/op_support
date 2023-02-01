@@ -3,10 +3,10 @@ import { parseSessionTokenFromCookie } from '/common/parse'
 import { request } from '/common/public'
 import setHeader from '/common/setHeader'
 import { genSessionId } from '/common/crypto'
-import moment from 'moment'
+import dayjs from 'dayjs'
 export default (req, res) =>
   request(req, res, async () => {
-    const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+    const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const { filter } = req.body
     const { password } = filter
     const { username } = parseSessionTokenFromCookie(req)

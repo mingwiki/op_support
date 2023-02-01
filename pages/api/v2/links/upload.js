@@ -1,10 +1,10 @@
 import SQL from '/common/db'
 import { parseSessionTokenFromCookie } from '/common/parse'
 import { request } from '/common/public'
-import moment from 'moment'
+import dayjs from 'dayjs'
 export default (req, res) =>
   request(req, res, async () => {
-    const datetime = moment().format('YYYY-MM-DD HH:mm:ss')
+    const datetime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const filter = {}
     const { data } = req.body
     const { username, sessionId } = parseSessionTokenFromCookie(req)
