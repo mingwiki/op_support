@@ -9,7 +9,7 @@ export default (req, res) =>
     filter.map(async (i) => {
       const { id, appId } = i
       const res = await SQL(
-        `update config set hide=true where appId='${appId}' and id='${id}' and hide is null`
+        `update config set hide=true where appId='${appId}' and id='${id}'`
       )
       if (res.warningCount === 0) {
         if (!i.hide) {
