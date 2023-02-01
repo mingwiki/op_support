@@ -3,11 +3,14 @@ import { request } from '/common/public'
 import { parseSessionTokenFromCookie } from '/common/parse'
 export default (req, res) =>
   request(req, res, async () => {
-    const { appId, pagePath, presets } = req.body
+    const { appId, pageName, pagePath, presets } = req.body
     const { username } = parseSessionTokenFromCookie(req)
-    return await SQL(
-      `update config set presets='${JSON.stringify(
-        JSON.parse(presets)
-      )}', username='${username}' where appId='${appId}' and pagePath='${pagePath}'`
+    const result = await SQL(
+      `update config set hide=true where appId='${appId}' and pagePath='${pagePath}' and hide is null`
     )
+    if (result.warningCount === 0) {
+      return await SQL(`
+      insert into config (appId, pageName, pagePath, presets, username) values('${appId}', '${pageName}', '${pagePath}', '${presets}', '${username}')
+      `)
+    }
   })
