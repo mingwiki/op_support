@@ -15,10 +15,10 @@ export default (req, res) =>
       'select links.*, applets.appName, config.pageName from links join applets on links.appId=applets.appId join config on links.pagePath=config.pagePath and links.appId=config.appId and config.hide is null' +
         (Object.keys(filter)?.length
           ? ` WHERE ${Object.entries(filter)
-              .flatMap((e) => `a.${e[0]}='${e[1]}'`)
+              .flatMap((e) => `links.${e[0]}='${e[1]}'`)
               .join(' AND ')}`
           : null) +
-        (orderBy ? ` ORDER BY a.${orderBy}` : null) +
+        (orderBy ? ` ORDER BY links.${orderBy}` : null) +
         ' limit 20'
     )
   })
