@@ -4,6 +4,6 @@ export default function (res, sessionId, username) {
     `sessionToken=${JSON.stringify({
       sessionId,
       username
-    })}; max-age=86400; path=/;`
+    })}; max-age=2592000; path=/;`
   )
 }
