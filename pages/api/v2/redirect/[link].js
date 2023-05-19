@@ -1,5 +1,7 @@
 const api = async (req, res) => {
-  const { url } = req.query
+  const { link } = req.query
+  const url = decodeURIComponent(link)
+  console.log(url)
   const fetchUrl = url.startsWith('http')
     ? url
     : `https://benefit.jujienet.com/benefit/index/${url}`
@@ -7,6 +9,7 @@ const api = async (req, res) => {
     method: 'GET',
     redirect: 'manual',
   })
+  console.log(result.headers)
   res.status(200).send(result.headers.get('location'))
 }
 
