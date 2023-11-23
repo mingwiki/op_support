@@ -13,12 +13,13 @@ export default (req, res) =>
             .flatMap((e) => `${e[0]}='${e[1]}'`)
             .join(' AND ')}`
       )
-      return await SQL(
+      const result = await SQL(
         'SELECT  id, username, nickname, update_time, create_time FROM users' +
           ` WHERE ${Object.entries(sessionToken)
             .flatMap((e) => `${e[0]}='${e[1]}'`)
             .join(' AND ')}`
       )
+      return result.rows
     } else {
       return false
     }

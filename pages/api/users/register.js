@@ -17,7 +17,7 @@ export default (req, res) =>
       const check = await SQL(
         `SELECT COUNT(username) FROM users WHERE username='${username}'`
       )
-      if (check[0] && check[0]['COUNT(username)'] === 0) {
+      if (check?.rows[0]?.count === '0') {
         setHeader(res, filter.sessionId, filter.username)
         return await SQL(
           'INSERT INTO users' +

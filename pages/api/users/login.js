@@ -19,7 +19,7 @@ export default (req, res) =>
                 .join(' AND ')}`
             : null)
       )
-      if (update.affectedRows !== 0) {
+      if (update.rowCount !== 0) {
         const result = await SQL(
           'SELECT id, username, nickname, update_time, create_time, disabled FROM users' +
             (Object.keys(filter)?.length
@@ -28,11 +28,12 @@ export default (req, res) =>
                   .join(' AND ')}`
               : null)
         )
-        if (result[0]?.disabled === 1) {
+        console.log(result)
+        if (result.rows[0]?.disabled === 1) {
           return '此账户已禁用，请自行注册或使用其他账户。'
         }
-        setHeader(res, sessionId, result[0].username)
-        return result
+        setHeader(res, sessionId, result.rows[0].username)
+        return result.rows
       } else {
         return '用户名或密码错误'
       }

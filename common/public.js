@@ -7,6 +7,7 @@ export const request = async (req, res, fn, pass = false) => {
     if (req.method === 'POST') {
       if (pass || auth(req)) {
         const result = await fn()
+        console.log(result)
         res.status(200).json(result)
       } else {
         res.status(200).json('sessionToken Not found')

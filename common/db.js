@@ -1,18 +1,17 @@
-import mysql from 'serverless-mysql'
-const db = mysql({
-  config: {
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-  },
+import { Client } from 'pg'
+
+const client = new Client({
+  host: 'localhost',
+  port: 5432,
+  database: 'op_data',
+  user: 'op',
+  password: 'test',
 })
+client.connect()
 export default async function SQL(sql) {
   try {
     console.log(sql)
-    const results = await db.query(sql)
-    await db.end()
+    const results = await client.query(sql)
     return results
   } catch (error) {
     return error
